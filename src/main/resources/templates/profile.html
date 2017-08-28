@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <title>AquaJMT | Profile </title>
+    <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="">
+            <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+        </div>
+    </div>
+</div>
+
+
+<div class="container-fluid">
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                 <h1 class="page-header">Profile Management</h1>
+            </div>
+        <!-- /.col-lg-12 -->
+        </div>
+         <!-- /.row -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                         You can look at and change the details of your store's profile here.
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <form th:object="${shop}" role="form">
+                                    <div class="form-group">
+                                        <label>Business Name</label>
+                                        <input class="form-control" placeholder="Business Name" th:field="*{businessName}"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Address</label>
+                                        <input class="form-control" placeholder="Business Address" th:field="*{address}"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Contact Number</label>
+                                        <input class="form-control" placeholder="Business Number" th:field="*{cellphoneNo}"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Alternative Number</label>
+                                        <input class="form-control" placeholder="Alternative Number" th:field="*{alternateNo}"/>
+                                    </div>
+
+                                    <div class="form-group">
+                                            <label>Opening Time</label> <input type="time" th:value="*{timeOpen}"/>
+
+                                            <label>Closing Time</label> <input type="time" th:value="*{timeClose}"/>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Open on Sundays?</label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="radioSundays" id="radio1" value="option1"/>Yes
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="radioSundays" id="radio2" value="option2"/>No
+                                        </label>
+
+                                        <label>Open on Holidays?</label>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="radioHolidays" id="radio3" value="option1"/>Yes
+                                            </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="radioHolidays" id="radio4" value="option2"/>No
+                                        </label>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Transaction Types</label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="radioSwaps" id="radio5" value="option1"/>Allows Pick-ups and Swaps
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="radioSwaps" id="radio6" value="option2"/>Allows Pick-ups only
+                                        </label>
+                                    </div>
+
+                                    <button type="button" class="btn btn-success btn-lg">Update Profile</button>
+                                </form>
+                            </div>
+                        <!-- /.col-lg-6 (nested) -->
+                            <div class="col-lg-6">
+                                <form th:object="${water}" role="form">
+
+                                    <label>Price of Alkaline Water</label>
+                                    <div class="form-group input-group">
+                                        <span class="input-group-addon">₱ </span>
+                                        <input type="text" class="form-control" th:value="*{alkalinePrice}"/>
+                                    </div>
+
+                                    <label>Price of Mineral Water</label>
+                                    <div class="form-group input-group">
+                                        <span class="input-group-addon">₱ </span>
+                                        <input type="text" class="form-control" th:value="*{mineralPrice}"/>
+                                    </div>
+
+                                    <label>Price of Purified Water</label>
+                                    <div class="form-group input-group">
+                                        <span class="input-group-addon">₱ </span>
+                                        <input type="text" class="form-control" th:value="*{purifiedPrice}"/>
+                                    </div>
+
+                                    <label>Price of Distilled Water</label>
+                                    <div class="form-group input-group">
+                                        <span class="input-group-addon">₱ </span>
+                                        <input type="text" class="form-control" th:value="*{distilledPrice}"/>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-success btn-lg">Update Prices</button>
+                                </form>
+                            </div>
+                        <!-- /.col-lg-6 (nested) -->
+                        </div>
+                    <!-- /.row (nested) -->
+                    </div>
+                <!-- /.panel-body -->
+                </div>
+            <!-- /.panel -->
+            </div>
+        <!-- /.col-lg-12 -->
+         </div>
+    <!-- /.row -->
+    </div>
+</div>
+</body>
+</html>

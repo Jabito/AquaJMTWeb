@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.capstone.jmt.mapper.OrderMapper">
+
+    <resultMap id="orderInfoMap" type="com.capstone.jmt.data.OrderInfo">
+        <result column="id" property="id" jdbcType="VARCHAR" />
+        <result column="ordered_by" property="orderedBy" jdbcType="VARCHAR" />
+        <result column="ordered_from" property="orderedFrom" jdbcType="VARCHAR" />
+        <result column="customer_address" property="customerAddress" jdbcType="VARCHAR" />
+        <result column="water_type" property="waterType" jdbcType="VARCHAR" />
+        <result column="round_ordered" property="roundOrdered" jdbcType="INTEGER" />
+        <result column="slim_ordered" property="slimOrdered" jdbcType="INTEGER" />
+        <result column="cost_per_item" property="costPerItem" jdbcType="DOUBLE" />
+        <result column="total_cost" property="totalCost" jdbcType="DOUBLE" />
+        <result column="more_details" property="moreDetails" jdbcType="VARCHAR" />
+        <result column="created_on" property="createdOn" jdbcType="VARCHAR" />
+        <result column="updated_on" property="updatedOn" jdbcType="VARCHAR" />
+        <result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
+        <result column="rating_given" property="ratingGiven" jdbcType="INTEGER" />
+        <result column="comments" property="comments" jdbcType="VARCHAR" />
+        <result column="status" property="status" jdbcType="VARCHAR" />
+        <result column="Name" property="name" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <resultMap id="orderContainersMap" type="com.capstone.jmt.data.OrderContainers">
+        <result column="id" property="id" jdbcType="VARCHAR" />
+        <result column="round_qty" property="roundQty" jdbcType="INTEGER" />
+        <result column="round_cost" property="roundCost" jdbcType="DOUBLE" />
+        <result column="slim_qty" property="slimQty" jdbcType="INTEGER" />
+        <result column="slim_cost" property="slimCost" jdbcType="DOUBLE" />
+        <result column="total_cost" property="totalCost" jdbcType="DOUBLE" />
+        <result column="created_on" property="createdOn" jdbcType="VARCHAR" />
+        <result column="updated_on" property="updatedOn" jdbcType="VARCHAR" />
+        <result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <select id="getOrdersForToday" resultType="java.util.List">
+        select * from customer_login
+        WHERE ordered_from = #{shopId}
+        AND created_on::date = CURRENT_DATE::date
+    </select>
+
+    <select id="getOrderInfoById" resultMap="orderInfoMap" resultType="com.capstone.jmt.data.OrderInfo">
+        SELECT * FROM order_info WHERE id = #{id}
+    </select>
+
+    <select id="getOrderContainersById" resultMap="orderContainersMap" resultType="com.capstone.jmt.data.OrderContainers">
+        SELECT * FROM order_containers WHERE id = #{id}
+    </select>
+
+    <insert id="addOrderInfo" parameterType="com.capstone.jmt.data.OrderInfo">
+        INSERT INTO order_info
+        (id,
+        ordered_by,
+        ordered_from,
+        customer_address,
+        water_type,
+        round_ordered,
+        slim_ordered,
+        cost_per_item,
+        total_cost,
+        more_details,
+        rating_given,
+        comments,
+        status,
+        complaint)
+        VALUES
+        (#{order.id, jdbcType=VARCHAR},
+        #{order.orderedBy, jdbcType=VARCHAR},
+        #{order.orderedFrom, jdbcType=VARCHAR},
+        #{order.customerAddress, jdbcType=VARCHAR},
+        #{order.waterType, jdbcType=VARCHAR},
+        #{order.roundOrdered , jdbcType=INTEGER},
+        #{order.slimOrdered, jdbcType=INTEGER},
+        #{order.costPerItem, jdbcType=DOUBLE},
+        #{order.totalCost, jdbcType=DOUBLE},
+        #{order.moreDetails, jdbcType=VARCHAR},
+        #{order.ratingGiven, jdbcType=INTEGER},
+        #{order.comments, jdbcType=VARCHAR},
+        #{order.status, jdbcType=VARCHAR},
+        #{order.complaint, jdbcType=VARCHAR})
+    </insert>
+
+    <select id="getLastSevenDays" resultMap="orderInfoMap" resultType="java.util.List">
+        SELECT DISTINCT created_on::TIMESTAMP::DATE,
+        SUM(round_ordered + slim_ordered) as round_ordered,
+        SUM(total_cost) as total_cost
+        FROM order_info
+        WHERE created_on &lt; now()::TIMESTAMP::DATE
+        AND created_on &gt; now()::TIMESTAMP::DATE - INTERVAL '7 DAYS'
+        AND ordered_from = #{shopId}
+        GROUP BY created_on
+        ORDER BY created_on DESC
+    </select>
+
+    <update id="updateOrderInfo" flushCache="true" parameterType="com.capstone.jmt.data.OrderInfo">
+        UPDATE order_info
+        SET
+        ordered_by = #{order.orderedBy, jdbcType=VARCHAR},
+        ordered_from = #{order.orderedFrom, jdbcType=VARCHAR},
+        customer_address = #{orde  r.customerAddress, jdbcType=VARCHAR},
+        water_type = #{order.waterType, jdbcType=VARCHAR},
+        round_ordered = #{order.roundOrdered, jdbcType=INTEGER},
+        slim_ordered = #{order.slimOrdered, jdbcType=INTEGER},
+        cost_per_item = #{order.costPerItem, jdbcType=DOUBLE},
+        total_cost = #{order.totalCost, jdbcType=DOUBLE},
+        more_details = #{order.moreDetails, jdbcType=VARCHAR},
+        comments = #{order.comments, jdbcType=VARCHAR},
+        status = #{order.status, jdbcType=VARCHAR},
+        complaint = #{order.complaint}
+        WHERE
+        id = #{order.id, jdbcType=VARCHAR}
+    </update>
+
+    <insert id="addOrderContainers" parameterType="com.capstone.jmt.data.OrderContainers">
+        INSERT INTO order_containers
+        (id,
+        round_qty,
+        round_cost,
+        slim_qty,
+        slim_cost,
+        total_cost)
+        VALUES
+        #{order.id, jdbcType=VARCHAR},
+        #{order.roundQty, jdbcType=INTEGER},
+        #{order.roundCost, jdbcType=DOUBLE},
+        #{order.slimQty, jdbcType=INTEGER},
+        #{order.slimCost, jdbcType=DOUBLE},
+        #{order.totalCost, jdbcType=DOUBLE}
+    </insert>
+
+    <update id="updateOrderContainers" flushCache="true" parameterType="com.capstone.jmt.data.OrderContainers">
+        UPDATE order_containers
+        SET
+        round_qty = #{order.roundQty, jdbcType=INTEGER},
+        round_cost = #{order.roundCost, jdbcType=DOUBLE},
+        slim_qty = #{order.slimQty, jdbcType=INTEGER},
+        slim_cost = #{order.slimCost, jdbcType=DOUBLE},
+        total_cost = #{order.totalCost, jdbcType=DOUBLE}
+        WHERE
+        id = #{order.id, jdbcType=VARCHAR}
+    </update>
+
+    <select id="getOrdersByShopId" resultMap="orderInfoMap" resultType="java.util.List">
+        SELECT * FROM order_info
+        WHERE ordered_from = #{shopId}
+    </select>
+
+    <select id="getBottleSales" resultMap="orderInfoMap" resultType="java.util.List">
+        SELECT a.*,b.last_name || ', ' || b.first_name || ' ' || coalesce(b.middle_name) as Name from order_info a
+        Join customer_login  b on a.ordered_by = b.id
+    </select>
+</mapper>

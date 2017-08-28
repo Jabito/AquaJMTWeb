@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.capstone.jmt.mapper.ShopMapper">
+
+    <resultMap id="shopLoginMap" type="com.capstone.jmt.data.ShopLogin">
+        <result column="id" property="id" jdbcType="VARCHAR" />
+        <result column="username" property="username" jdbcType="VARCHAR" />
+        <result column="password" property="password" jdbcType="VARCHAR" />
+        <result column="email" property="email" jdbcType="VARCHAR" />
+        <result column="first_name" property="firstName" jdbcType="VARCHAR" />
+        <result column="middle_name" property="middleName" jdbcType="VARCHAR" />
+        <result column="last_name" property="lastName" jdbcType="VARCHAR" />
+        <result column="staff_of" property="staffOf" jdbcType="VARCHAR" />
+        <result column="created_on" property="createdOn" jdbcType="VARCHAR" />
+        <result column="updated_on" property="updatedOn" jdbcType="VARCHAR" />
+    </resultMap>
+    
+    <resultMap id="shopInfoMap" type="com.capstone.jmt.data.ShopInfo">
+        <result column="id" property="id" jdbcType="VARCHAR" />
+        <result column="business_name" property="businessName" jdbcType="VARCHAR" />
+        <result column="address" property="address" jdbcType="VARCHAR" />
+        <result column="email" property="email" jdbcType="VARCHAR" />
+        <result column="cellphone_no" property="cellphoneNo" jdbcType="VARCHAR" />
+        <result column="alternate_no" property="alternateNo" jdbcType="VARCHAR" />
+        <result column="time_open" property="timeOpen" jdbcType="VARCHAR" />
+        <result column="time_close" property="timeClose" jdbcType="VARCHAR" />
+        <result column="allow_swap" property="allowSwap" jdbcType="BOOLEAN" />
+        <result column="account_verified" property="accountVerified" jdbcType="BOOLEAN" />
+        <result column="days_available" property="daysAvailable" jdbcType="VARCHAR" />
+        <result column="open_on_holidays" property="openOnHolidays" jdbcType="BOOLEAN" />
+        <result column="created_on" property="createdOn" jdbcType="VARCHAR" />
+        <result column="updated_on" property="updatedOn" jdbcType="VARCHAR" />
+        <result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
+    </resultMap>
+    
+    <resultMap id="shopLocationMap" type="com.capstone.jmt.data.ShopLocation">
+        <result column="id" property="id" jdbcType="VARCHAR" />
+        <result column="shop_address" property="shopAddress" jdbcType="VARCHAR" />
+        <result column="shop_longitude" property="shopLongitude" jdbcType="FLOAT" />
+        <result column="shop_latitude" property="shopLatitude" jdbcType="FLOAT" />
+        <result column="created_on" property="createdOn" jdbcType="VARCHAR" />
+        <result column="updated_on" property="updatedOn" jdbcType="VARCHAR" />
+        <result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <resultMap id="shopSalesInformationMap" type="com.capstone.jmt.data.ShopSalesInformation">
+        <result column="id" property="id" jdbcType="VARCHAR" />
+        <result column="round_offered" property="roundOffered" jdbcType="BOOLEAN" />
+        <result column="slim_offered" property="slimOffered" jdbcType="BOOLEAN" />
+        <result column="round_stock" property="roundStock" jdbcType="INTEGER" />
+        <result column="slim_stock" property="slimStock" jdbcType="INTEGER" />
+        <result column="distilled" property="distilled" jdbcType="BOOLEAN" />
+        <result column="purified" property="purified" jdbcType="BOOLEAN" />
+        <result column="mineral" property="mineral" jdbcType="BOOLEAN" />
+        <result column="alkaline" property="alkaline" jdbcType="BOOLEAN" />
+        <result column="distilled_price" property="distilledPrice" jdbcType="DOUBLE" />
+        <result column="purified_price" property="purifiedPrice" jdbcType="DOUBLE" />
+        <result column="mineral_price" property="mineralPrice" jdbcType="DOUBLE" />
+        <result column="alkaline_price" property="alkalinePrice" jdbcType="DOUBLE" />
+        <result column="created_on" property="createdOn" jdbcType="VARCHAR" />
+        <result column="updated_on" property="updatedOn" jdbcType="VARCHAR" />
+        <result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <select id="getShopRating" resultType="java.lang.String">
+        SELECT rating from shop_info WHERE id = #{shopId}
+    </select>
+    <select id="loadUserByUsername" resultMap="shopLoginMap" resultType="com.capstone.jmt.data.ShopLogin">
+        SELECT * FROM shop_login WHERE username = #{username}
+    </select>
+    
+    <select id="getShopInfoById" resultMap="shopInfoMap" resultType="com.capstone.jmt.data.ShopInfo">
+        SELECT * FROM shop_info WHERE id = #{id}
+    </select>
+    
+    <select id="getShopLoginById" resultMap="shopLoginMap" resultType="com.capstone.jmt.data.ShopLogin">
+        SELECT * FROM shop_login WHERE id = #{id}
+    </select>
+
+    <select id="getShopLocationById" resultMap="shopLocationMap" resultType="com.capstone.jmt.data.ShopLocation">
+        SELECT * FROM shop_location WHERE id = #{id}
+    </select>
+
+    <select id="getShopSalesInformationById" resultMap="shopSalesInformationMap" resultType="com.capstone.jmt.data.ShopSalesInformation">
+        SELECT * FROM shop_sales_information WHERE id = #{id}
+    </select>
+
+    <insert id="addShopInfo" parameterType="com.capstone.jmt.data.ShopInfo">
+        INSERT INTO shop_info
+        (id,
+        business_name,
+        address,
+        email
+        cellphone_no,
+        alternate_no)
+        VALUES
+        (#{shop.id, jdbcType=VARCHAR},
+        #{shop.businessName, jdbcType=VARCHAR},
+        #{shop.address, jdbcType=VARCHAR},
+        #{shop.email, jdbcType=VARCHAR},
+        #{shop.cellphoneNo, jdbcType=VARCHAR},
+        #{shop.alternateNo, jdbcType=VARCHAR})
+    </insert>
+
+    <update id="updateShopInfo" parameterType="com.capstone.jmt.data.ShopInfo">
+        UPDATE shop_info
+        SET
+        business_name = #{shop.businessName, jdbcType=VARCHAR},
+        address = #{shop.address, jdbcType=VARCHAR},
+        email = #{shop.email, jdbcType=VARCHAR},
+        cellphone_no = #{shop.cellphoneNo, jdbcType=VARCHAR},
+        alternate_no = #{shop.alternateNo, jdbcType=VARCHAR},
+        time_open = #{shop.timeOpen, jdbcType=VARCHAR},
+        time_close = #{shop.timeClose, jdbcType=VARCHAR},
+        allow_swap = #{shop.allowSwap, jdbcType=BOOLEAN},
+        days_available = #{shop.daysAvailable, jdbcType=VARCHAR},
+        open_on_holidays = #{shop.openOnHolidays, jdbcType=BOOLEAN},
+        updated_by = #{shop.updatedBy, jdbcType=VARCHAR}
+        WHERE
+        id = #{shop.id, jdbcType=VARCHAR}
+    </update>
+
+    <insert id="addShopLogin" parameterType="com.capstone.jmt.data.ShopLogin">
+        INSERT INTO shop_login
+        (id,
+        username,
+        password,
+        email,
+        first_name,
+        last_name,
+        middle_name,
+        staff_of)
+        VALUES
+        (#{shopUser.id, jdbcType=VARCHAR},
+        #{shopUser.username, jdbcType=VARCHAR},
+        #{shopUser.password, jdbcType=VARCHAR},
+        #{shopUser.email, jdbcType=VARCHAR},
+        #{shopUser.firstName, jdbcType=VARCHAR},
+        #{shopUser.lastName, jdbcType=VARCHAR},
+        #{shopUser.middleName, jdbcType=VARCHAR},
+        #{shopUser.staffOf, jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <update id="updateShopLogin" flushCache="true">
+        UPDATE shop_login
+        SET
+        username = #{shopUser.username, jdbcType=VARCHAR},
+        password = #{shopUser.password, jdbcType=VARCHAR},
+        email = #{shopUser.email, jdbcType=VARCHAR},
+        first_name = #{shopUser.firstName, jdbcType=VARCHAR},
+        last_name = #{shopUser.lastName, jdbcType=VARCHAR},
+        middle_name = #{shopUser.middleName, jdbcType=VARCHAR}
+        WHERE
+        id = #{shopUser.id, jdbcType=VARCHAR}
+    </update>
+
+    <insert id="addShopLocation" parameterType="com.capstone.jmt.data.ShopLocation">
+        INSERT INTO shop_location
+        (id,
+        shop_address,
+        shop_longitude,
+        shop_latitude)
+        VALUES
+        (#{shop.id}, jdbcType=VARCHAR},
+        #{shop.shopAddress, jdbcType=VARCHAR},
+        #{shop.shopLongitude, jdbcType=FLOAT},
+        #{shop.shopLatitude, jdbcType=FLOAT})
+    </insert>
+
+    <update id="updateShopLocation" flushCache="true">
+        UPDATE shop_location
+        SET
+        shop_address = #{shop.shopAddress, jdbcType=VARCHAR},
+        shop_longitude = #{shop.shopLongitude, jdbcType=FLOAT},
+        shop_latitude = #{shop.shopLatitude, jdbcType=FLOAT}
+        WHERE
+        id = #{shop.id, jdbcType=VARCHAR}
+    </update>
+
+    <insert id="addShopSalesInformation" parameterType="com.capstone.jmt.data.ShopSalesInformation">
+        INSERT INTO shop_sales_information
+        (id,
+        round_offered,
+        slim_offered,
+        round_stock,
+        slim_stock,
+        distilled,
+        purified,
+        mineral,
+        alkaline,
+        distilled_price,
+        purified_price,
+        mineral_price,
+        alkaline_price)
+        VALUES
+        (#{shop.id, jdbcType=VARCHAR},
+        #{shop.roundOffered, jdbcType=BOOLEAN},
+        #{shop.slimOffered, jdbcType=BOOLEAN},
+        #{shop.roundStock, jdbcType=INTEGER},
+        #{shop.slimStock, jdbcType=INTEGER},
+        #{shop.distilled, jdbcType=BOOLEAN},
+        #{shop.purified, jdbcType=BOOLEAN},
+        #{shop.mineral, jdbcType=BOOLEAN},
+        #{shop.alkaline, jdbcType=BOOLEAN},
+        #{shop.distilledPrice, jdbcType=DOUBLE},
+        #{shop.purifiedPrice, jdbcType=DOUBLE},
+        #{shop.mineralPrice, jdbcType=DOUBLE},
+        #{shop.alkalinePrice, jdbcType=DOUBLE})
+    </insert>
+
+    <update id="updateShopSalesInformation" flushCache="true" parameterType="com.capstone.jmt.data.ShopSalesInformation">
+        UPDATE shop_sales_information
+        SET
+        roundOffered = #{shop.roundOffered, jdbcType=BOOLEAN},
+        slim_offered = #{shop.slimOffered, jdbcType=BOOLEAN},
+        round_stock = #{shop.roundStock, jdbcType=INTEGER},
+        slim_stock = #{shop.slimStock, jdbcType=INTEGER},
+        distilled = #{shop.distilled, jdbcType=BOOLEAN},
+        purified = #{shop.purified, jdbcType=BOOLEAN},
+        mineral = #{shop.mineral, jdbcType=BOOLEAN},
+        alkaline = #{shop.alkaline, jdbcType=BOOLEAN},
+        distilled_price = #{shop.distilledPrice, jdbcType=DOUBLE},
+        purified_price = #{shop.purifiedPrice, jdbcType=DOUBLE},
+        mineral_price = #{shop.mineralPrice, jdbcType=DOUBLE},
+        alkaline_price = #{shop.alkalinePrice, jdbcType=DOUBLE}
+        WHERE
+        id = #{shop.id, jdbcType=VARCHAR}
+    </update>
+
+    <select id="getTotalSalesById" resultType="java.lang.Double">
+        SELECT SUM(total_cost)
+        FROM order_info
+        WHERE ordered_from = #{shopId}
+    </select>
+
+    <select id="getSalesCount" resultType="java.lang.Integer">
+        SELECT COUNT(id)
+        FROM order_info
+        WHERE ordered_from = #{shopId}
+    </select>
+
+    <select id="getTotalRatings" resultType="java.lang.Integer">
+        SELECT SUM(rating_given)
+        FROM order_info
+        WHERE ordered_from = #{shopId}
+    </select>
+
+    <select id="getReviewsCount" resultType="java.lang.Integer">
+        SELECT COUNT(id)
+        FROM order_info
+        WHERE rating_given >= 0 AND ordered_from = #{shopId}
+    </select>
+
+    <select id="getTotalSalesToday" resultType="java.lang.Double">
+        SELECT SUM(total_cost)
+        FROM order_info
+        WHERE created_on::DATE = now()::DATE
+        AND ordered_from = #{shopId}
+    </select>
+
+    <select id="getInventoryCount" resultType="java.lang.Integer">
+        SELECT SUM(round_stock + slim_stock)
+        FROM shop_sales_information
+        WHERE id = #{shopId}
+    </select>
+
+    <update id="updateRoundStock" flushCache="true">
+        UPDATE shop_sales_information
+        SET round_stock = #{stock},
+        updated_by = #{username}
+        WHERE id = #{shopId}
+    </update>
+
+    <update id="updateSlimStock" flushCache="true">
+        UPDATE shop_sales_information
+        SET slim_stock = #{stock},
+        updated_by = #{username}
+        WHERE id = #{shopId}
+    </update>
+
+    <update id="updatePrices" flushCache="true">
+        UPDATE shop_sales_information
+        SET distilledPrice = #{shop.distilledPrice, jdbcType=NUMERIC},
+        purifiedPrice = #{shop.purifiedPrice, jdbcType=NUMERIC},
+        mineralPrice = #{shop.mineralPrice, jdbcType=NUMERIC},
+        alkalinePrice = #{shop.alkalinePrice, jdbcType=NUMERIC},
+        updated_by = #{shop.updatedBy, jdbcType=VARCHAR}
+        WHERE id = #{shop.id, jdbcType=VARCHAR}
+    </update>
+</mapper>

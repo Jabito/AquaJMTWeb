@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>AquaJMT | Inventory</title>
+    <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+
+
+</head>
+<body>
+
+<div id="wrapper">
+    <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+
+
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Bottle Sales Records</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <form class="form-inline">
+                            <div class="form-group">
+                                <label>Display Sales From:</label>
+                                <select class="form-control">
+                                    <option>Today</option>
+                                    <option>The past 7 days</option> Line 39 lang yung error ko
+                                    <option>The past 30 days</option>
+                                    <option>The past year</option>
+                                </select>
+                            </div>
+                            <!-- OKS NA!!!!-->
+                            <button type="button" onclick="downloadCSV({filename: 'bottle-sales.csv'});" class="btn btn-primary"  style="float:right">Generate Report</button>
+                        </form>
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <table width="100%" class="table table-striped table-bordered table-hover"
+                               id="dataTables-example">
+                            <thead>
+                            <tr>
+                                <th>Sold on</th>
+                                <th>Sold to</th>
+                                <th>Address</th>
+                                <th>No. of Round</th>
+                                <th>Cost per Bottle</th>
+                                <th>No. of Slim</th>
+                                <th>Cost per Bottle</th>
+                                <th>Total Cost</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="odd gradeX" th:each="battleSales: ${bottleSalesRecord}">
+                                <td th:text="${battleSales.createdOn}"></td>
+                                <td th:text="${battleSales.name}"></td>
+                                <td th:text="${battleSales.customerAddress}"></td>
+                                <td th:text="${battleSales.roundOrdered}" class="center"></td>
+                                <td th:text="${battleSales.costPerItem}" class="center"></td>
+                                <td th:text="${battleSales.slimOrdered}" class="center"></td>
+                                <td th:text="${battleSales.costPerItem}" class="center"></td>
+                                <td th:text="${battleSales.totalCost}" class="center"></td>
+                            </tr>
+                            </tbody>
+                            <thead>
+                            <tr>
+                                <th colspan="7">Total Sales</th>
+                                <th>P666.00</th>
+                            </tr>
+                            </thead>
+                        </table>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+
+            <!-- /.row -->
+        </div>
+        <!-- /#page-wrapper -->
+    </div>
+
+    <script type="text/javascript" th:inline="javascript">
+        var map = /*[[${bottleSalesRecord}]]*/ [];
+
+        function downloadCSV(args) {
+            var data, filename, link;
+            var csv = convertArrayOfObjectsToCSV({
+                data: map
+            });
+            if (csv == null) return;
+
+            filename = args.filename || 'export.csv';
+
+            if (!csv.match(/^data:text\/csv/i)) {
+                csv = 'data:text/csv;charset=utf-8,' + csv;
+            }
+            data = encodeURI(csv);
+
+            link = document.createElement('a');
+            link.setAttribute('href', data);
+            link.setAttribute('download', filename);
+            link.click();
+        }
+        function convertArrayOfObjectsToCSV(args) {
+            var result, ctr, keys, columnDelimiter, lineDelimiter, data;
+
+            data = args.data || null;
+            if (data == null || !data.length) {
+                return null;
+            }
+
+            columnDelimiter = args.columnDelimiter || ',';
+            lineDelimiter = args.lineDelimiter || '\n';
+
+            keys = Object.keys(data[0]);
+
+            result = '';
+            result += keys.join(columnDelimiter);
+            result += lineDelimiter;
+
+            data.forEach(function (item) {
+                ctr = 0;
+                keys.forEach(function (key) {
+                    if (ctr > 0) result += columnDelimiter;
+
+                    result += item[key];
+                    ctr++;
+                });
+                result += lineDelimiter;
+            });
+
+            return result;
+        }
+    </script>
+</div>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.capstone.jmt.mapper.CustomerMapper">
+    
+    <resultMap id="customerLoginMap" type="com.capstone.jmt.data.CustomerLogin">
+        <result column="id" property="id" jdbcType="VARCHAR" />
+        <result column="username" property="username" jdbcType="VARCHAR" />
+        <result column="password" property="password" jdbcType="VARCHAR" />
+        <result column="email" property="email" jdbcType="VARCHAR" />
+        <result column="first_name" property="firstName" jdbcType="VARCHAR" />
+        <result column="last_name" property="lastName" jdbcType="VARCHAR" />
+        <result column="middle_name" property="middleName" jdbcType="VARCHAR" />
+        <result column="cellphone_no" property="cellphoneNo" jdbcType="VARCHAR" />
+        <result column="landline" property="landline" jdbcType="VARCHAR" />
+        <result column="created_on" property="createdOn" jdbcType="VARCHAR" />
+        <result column="updated_on" property="updatedOn" jdbcType="VARCHAR" />
+    </resultMap>
+    
+    <resultMap id="customerLocationMap" type="com.capstone.jmt.data.CustomerLocation">
+        <result column="id" property="id" jdbcType="VARCHAR" />
+        <result column="address" property="address" jdbcType="VARCHAR" />
+        <result column="longitude" property="longitude" jdbcType="FLOAT" />
+        <result column="latitude" property="latitude" jdbcType="FLOAT" />
+        <result column="created_on" property="createdOn" jdbcType="VARCHAR" />
+        <result column="updated_on" property="updatedOn" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <select id="getAllCustomers" resultMap="customerLoginMap" resultType="java.util.List">
+        SELECT * FROM customer_login
+    </select>
+
+    <select id="getCustomerLoginById" resultType="com.capstone.jmt.data.CustomerLogin">
+        SELECT * FROM customer_login WHERE id = #{id}
+    </select>
+
+    <select id="getCustomerLocationById" resultType="com.capstone.jmt.data.CustomerLocation">
+        SELECT * FROM customer_location WHERE id = #{id}
+    </select>
+
+    <select id="getCustomerNameById" resultType="java.lang.String">
+        SELECT
+        last_name || ', ' || first_name || ' ' || coalesce(middle_name)
+        FROM customer_login
+        WHERE id = #{id}
+    </select>
+    
+    <insert id="addCustomerLogin" parameterType="com.capstone.jmt.data.CustomerLogin">
+        INSERT INTO customer_login
+        (id,
+        username,
+        password,
+        email,
+        first_name,
+        last_name,
+        middle_name,
+        cellphone_no,
+        landline)
+        VALUES
+        (#{customer.id, jdbcType=VARCHAR},
+        #{customer.username, jdbcType=VARCHAR},
+        #{customer.password, jdbcType=VARCHAR},
+        #{customer.email, jdbcType=VARCHAR},
+        #{customer.firstName, jdbcType=VARCHAR},
+        #{customer.lastName, jdbcType=VARCHAR},
+        #{customer.middleName, jdbcType=VARCHAR},
+        #{customer.cellphoneNo, jdbcType=VARCHAR},
+        #{customer.landline, jdbcType=VARCHAR})
+    </insert>
+
+    <update id="updateCustomerLogin" flushCache="true">
+        UPDATE customer_login
+        SET
+        username = #{customer.username, jdbcType=VARCHAR},
+        password = #{customer.password, jdbcType=VARCHAR},
+        email = #{customer.email, jdbcType=VARCHAR},
+        first_name = #{customer.firstName, jdbcType=VARCHAR},
+        last_name = #{customer.lastName, jdbcType=VARCHAR},
+        middle_name = #{customer.middleName, jdbcType=VARCHAR},
+        cellphone_no = #{customer.cellphoneNo, jdbcType=VARCHAR},
+        landline = #{customer.landline, jdbcType=VARCHAR}
+        WHERE
+        id = #{customer.id, jdbcType=VARCHAR}
+    </update>
+
+    <insert id="addCustomerLocation" parameterType="com.capstone.jmt.data.CustomerLocation">
+        INSERT INTO customer_location
+        (id,
+        address,
+        longitude,
+        latitude)
+        VALUES
+        (#{customer.id, jdbcType=VARCHAR},
+        #{customer.address, jdbcType=VARCHAR},
+        #{customer.longitude, jdbcType=FLOAT},
+        #{customer.latitude, jdbcType=FLOAT})
+    </insert>
+
+    <update id="updateCustomerLocation" flushCache="true">
+        UPDATE customer_location
+        SET
+        address = #{customer.address, jdbcType=VARCHAR},
+        longitude = #{customer.longitude, jdbcType=FLOAT},
+        latitude = #{customer.latitude, jdbcType=FLOAT}
+        WHERE
+        id = #{customer.id, jdbcType=VARCHAR}
+    </update>
+</mapper>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>AquaJMT Home</title>
+    <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="">
+            <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+        </div>
+    </div>
+</div>
+            <div class="col-md-8" style="background-color: whitesmoke !important;">
+                <div class="header center">USERS LIST</div>
+                <br />
+                <div th:if="${not #lists.isEmpty(users)}">
+                    <table class="table table-condensed">
+                        <tr>
+                            <th>Id</th>
+                            <th>Username</th>
+                            <th>Password</th>
+                            <th>Email</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Middle Name</th>
+                            <th>Cellphone No</th>
+                            <th>Landline</th>
+                            <th>Created On</th>
+                            <th>Updated On</th>
+                        </tr>
+                        <tr th:each="user : ${users}">
+                            <td th:text="${user.id}">Id</td>
+                            <td th:text="${user.username}">User Name</td>
+                            <td th:text="${user.password}">Password</td>
+                            <td th:text="${user.email}">Email</td>
+                            <td th:text="${user.firstName}">Email</td>
+                            <td th:text="${user.lastName}">Email</td>
+                            <td th:text="${user.middleName}">Email</td>
+                            <td th:text="${user.cellphoneNo}">Email</td>
+                            <td th:text="${user.landline}">Email</td>
+                            <td th:text="${user.createdOn}">Created On</td>
+                            <td th:text="${user.updatedOn}">Updated On</td>
+                        </tr>
+                    </table>
+
+                </div>
+                <div th:if="${#lists.isEmpty(users)}">
+                    No Data Yet. Please create a new user.
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

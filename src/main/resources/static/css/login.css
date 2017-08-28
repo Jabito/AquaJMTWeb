@@ -1,0 +1,76 @@
+body {
+	font: normal 13px/150% Arial, Helvetica, sans-serif;
+}
+
+.container {
+	margin-top:50px;
+}
+.login-box {
+	background-color: white;
+	box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) !important;
+}
+.login-box .form-control, .login-box button, .login-box h4, .login-box img  {
+	display: block;
+	margin:0 auto;
+	text-align:center;
+}
+.login-box h4 {
+	color:#290e88;
+ 	font-weight:bold;
+}
+
+.login-box input[type=text], .login-box input[type=password]  {
+	max-width: 280px;
+}
+.btn-aqua {
+	background-color:#7157cc;
+	color: #000000;
+}
+
+.btn-aqua.active, .btn-aqua.focus, .btn-aqua:active, .btn-aqua:focus, .btn-aqua:hover, .open > .dropdown-toggle.btn-aqua {
+	
+	background-color:#290e88;
+}
+
+.login-box .btn, .login-box .btn.focus, .login-box .btn:focus, .btn:hover {
+	color:#f4f3fa;
+}
+
+.login-box .form-group {
+	margin-bottom: 30px;
+}
+
+input.form-control {
+    background-color: transparent;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: solid #290e88 1px;
+    box-shadow:0 1px 1px rgba(0, 0, 0, 0) inset;
+    color: #290e88;
+    outline: none;
+    outline-style: none;
+    padding: 3px 10px;
+}
+
+.navbar-fixed-left {
+  width: 140px;
+  position: fixed;
+  border-radius: 0;
+  height: 100%;
+}
+
+.navbar-fixed-left .navbar-nav > li {
+  float: none;  /* Cancel default li float: left */
+  width: 139px;
+}
+
+.navbar-fixed-left + .container {
+  padding-left: 160px;
+}
+
+/* On using dropdown menu (To right shift popuped) */
+.navbar-fixed-left .navbar-nav > li > .dropdown-menu {
+  margin-top: -50px;
+  margin-left: 140px;
+}

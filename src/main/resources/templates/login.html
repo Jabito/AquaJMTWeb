@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>AquaJMT Login</title>
+    <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <div class="login-panel panel panel-default">
+
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <center>Please Sign In</center>
+                    </h3>
+                </div>
+
+                <div class="panel-body">
+                    <fieldset>
+                        <form th:object="${user}" th:action="@{/loginUser}" method="POST">
+                            <div class="form-group">
+                                <center><img src="../static/images/logo.png" height="140px" width="180px"/></center>
+                            </div>
+                            <div class="form-group">
+                                <h4>
+                                    <center>Log In to AquaJMT Admin Page</center>
+                                </h4>
+                            </div>
+                            <div th:if="${param.error}" class="alert alert-danger">Invalid username and password</div>
+                            <div th:if="${param.logout}" class="alert alert-success">You have been logged out.</div>
+                            <div class="form-group">
+                                <input type="text" placeholder="Username" id="username" th:field="*{username}"
+                                       name="username" maxlength="50" class="form-control" required="true"/>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" placeholder="Password" id="password" th:field="*{password}"
+                                       maxlength="50" name="password" class="form-control" required="true"/>
+                            </div>
+                            <div class="form-actions form-group">
+                                <center>
+                                    <button th:type="submit" class="btn btn-aqua">LOG IN</button>
+                                </center>
+                            </div>
+                        </form>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
