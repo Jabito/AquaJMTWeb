@@ -30,7 +30,6 @@ public class CustomerController {
     public String getCustomers(Model model){
         List users = customerService.getAllCustomers();
         model.addAttribute("users", users);
-
         return "main";
     }
 

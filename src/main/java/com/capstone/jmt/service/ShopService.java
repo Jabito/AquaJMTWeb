@@ -3,15 +3,24 @@ package com.capstone.jmt.service;
 import com.capstone.jmt.data.*;
 import com.capstone.jmt.mapper.OrderMapper;
 import com.capstone.jmt.mapper.ShopMapper;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import com.itextpdf.*;
 
 /**
  * Created by Jabito on 15/02/2017.
@@ -127,10 +136,10 @@ public class ShopService {
         logger.info("getLastSevenDays");
         List<OrderInfo> orders = orderMapper.getLastSevenDays(shopId);
         String startDate;
-        Integer sold=0;
-        Double sales=0.0;
+        Integer sold = 0;
+        Double sales = 0.0;
         List<LastSevenDays> lastSeven = new ArrayList<>();
-        if(null != orders && orders.size() >0) {
+        if (null != orders && orders.size() > 0) {
             startDate = orders.get(0).getCreatedOn();
             for (OrderInfo order : orders) {
                 if (!order.getCreatedOn().equals(startDate)) {
@@ -142,14 +151,14 @@ public class ShopService {
                     sold = 0;
                     sales = 0.0;
                     startDate = order.getCreatedOn();
-                    if(null != order.getRoundOrdered())
+                    if (null != order.getRoundOrdered())
                         sold += order.getRoundOrdered();
-                    if(null != order.getTotalCost())
+                    if (null != order.getTotalCost())
                         sales += order.getTotalCost();
                 } else {
-                    if(null != order.getRoundOrdered())
+                    if (null != order.getRoundOrdered())
                         sold += order.getRoundOrdered();
-                    if(null != order.getTotalCost())
+                    if (null != order.getTotalCost())
                         sales += order.getTotalCost();
                 }
             }
@@ -189,5 +198,38 @@ public class ShopService {
     public void updateProfile(ShopInfo shop, String username) {
         shop.setUpdatedBy(username);
         shopMapper.updateShopInfo(shop);
+    }
+
+    public Document generateReport(String shopId) {
+
+        List<OrderInfo> orders = orderMapper.getOrdersByShopId("aqua-350532f");
+        /* Step-2: Initialize PDF documents - logical objects */
+        Document orderReports = new Document();
+        try {
+            PdfWriter.getInstance(orderReports, new FileOutputStream("pdf_report_from_sql_using_java.pdf"));
+
+            orderReports.open();
+            //we have four columns in our table
+            PdfPTable ordersTable = new PdfPTable(10);
+            //create a cell object
+
+            for (OrderInfo order : orders) {
+                ordersTable.addCell(new PdfPCell(new Phrase(order.getId())));
+                ordersTable.addCell(new PdfPCell(new Phrase(order.getOrderedBy())));
+                ordersTable.addCell(new PdfPCell(new Phrase(order.getOrderedFrom())));
+                ordersTable.addCell(new PdfPCell(new Phrase(order.getWaterType())));
+                ordersTable.addCell(new PdfPCell(new Phrase(order.getWaterType().equalsIgnoreCase("ROUND") ? order.getRoundOrdered().toString() : order.getSlimOrdered().toString())));
+                ordersTable.addCell(new PdfPCell(new Phrase(order.getCostPerItem().toString())));
+                ordersTable.addCell(new PdfPCell(new Phrase(order.getTotalCost().toString())));
+                ordersTable.addCell(new PdfPCell(new Phrase(order.getMoreDetails())));
+                ordersTable.addCell(new PdfPCell(new Phrase(order.getCreatedOn())));
+                ordersTable.addCell(new PdfPCell(new Phrase(order.getStatus())));
+            }
+            orderReports.add(ordersTable);
+            orderReports.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return orderReports;
     }
 }

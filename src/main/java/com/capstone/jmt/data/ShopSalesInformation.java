@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
 
+
 /**
  * Created by Jabito on 15/02/2017.
  */

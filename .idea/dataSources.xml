@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="aqua@aquajmt.com" uuid="1c92f194-290c-49b6-b913-ea753a7d46ab">
+    <data-source source="LOCAL" name="aquajmt@52.230.82.236" uuid="0eba6562-a990-43ee-9c8c-1ac283548982">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://aquajmt.com:5432/aqua</jdbc-url>
+      <jdbc-url>jdbc:postgresql://52.230.82.236:5432/aquajmt</jdbc-url>
     </data-source>
   </component>
 </project>
