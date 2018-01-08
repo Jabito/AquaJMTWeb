@@ -8,7 +8,15 @@
       <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact" />
       <secret-storage>master_key</secret-storage>
       <user-name>postgres</user-name>
-      <introspection-schemas>aquajmt:public</introspection-schemas>
+    </data-source>
+    <data-source name="aqua@www.aquajmt.com" uuid="24770407-c684-4847-baf4-6eb494ce1418">
+      <database-info product="PostgreSQL" version="9.6.2" jdbc-version="4.2" driver-name="PostgreSQL JDBC Driver" driver-version="42.1.1">
+        <identifier-quote-string>&quot;</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>postgres</user-name>
+      <resolve-scope>aqua:public,postgres</resolve-scope>
     </data-source>
   </component>
 </project>

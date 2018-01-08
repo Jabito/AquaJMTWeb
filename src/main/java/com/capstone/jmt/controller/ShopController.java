@@ -220,7 +220,7 @@ public class ShopController {
 
 
     @RequestMapping(value = "/generateReportsByShopId", method = RequestMethod.POST)
-    public void generateReportsByShopId(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void generateReportsByShopId(String shopId, HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         final ServletContext servletContext = request.getSession().getServletContext();
         final File tempDirectory = (File) servletContext.getAttribute("javax.servlet.context.tempdir");
@@ -231,8 +231,8 @@ public class ShopController {
         response.setHeader("Content-disposition", "attachment; filename="+ fileName);
 
         try {
-
-            CreatePDF.createPDF(temperotyFilePath+"\\"+fileName);
+            List<OrderInfo> orders = orderService.getOrdersByShopId("aquajmt");
+            CreatePDF.createPDF(temperotyFilePath+"\\"+fileName, orders);
             ByteArrayOutputStream baos = convertPDFToByteArrayOutputStream(temperotyFilePath+"\\"+fileName);
             OutputStream os = response.getOutputStream();
             baos.writeTo(os);

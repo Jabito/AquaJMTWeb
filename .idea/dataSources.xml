@@ -7,5 +7,11 @@
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://52.230.82.236:5432/aquajmt</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="aqua@www.aquajmt.com" uuid="24770407-c684-4847-baf4-6eb494ce1418">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://www.aquajmt.com:5432/aqua</jdbc-url>
+    </data-source>
   </component>
 </project>
