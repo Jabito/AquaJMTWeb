@@ -171,15 +171,15 @@ public class ShopController {
     public String loginUser(ShopLogin shop, Model model) {
 
 
-        String shopId = "aqua-350532f";
-        return "redirect:/generateReportsByShopId";
-//        ShopLogin user = shopService.validateUser(shop);
-//        if (null != user) {
-//            model.addAttribute("shopUser", user);
-//            return "redirect:/dashboard/";
-//        } else {
-//            return "redirect:/login/?error=" + "1";
-//        }
+//        String shopId = "aqua-350532f";
+//        return "redirect:/generateReportsByShopId";
+        ShopLogin user = shopService.validateUser(shop);
+        if (null != user) {
+            model.addAttribute("shopUser", user);
+            return "redirect:/dashboard/";
+        } else {
+            return "redirect:/login/?error=" + "1";
+        }
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
@@ -240,7 +240,6 @@ public class ShopController {
         } catch (Exception e1) {
             e1.printStackTrace();
         }
-
     }
 
     private ByteArrayOutputStream convertPDFToByteArrayOutputStream(String fileName) {

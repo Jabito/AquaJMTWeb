@@ -36,7 +36,7 @@
             <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <form class="form-inline">
+                        <form class="form-inline" action="/generateReportsByShopId" method="POST">
                             <div class="form-group">
                                 <label>Display Sales From:</label>
                                 <select class="form-control">
@@ -49,8 +49,22 @@
 
 
 
-                            <button type="button" onclick="downloadCSV({filename: 'sales.csv'});" class="btn btn-primary" style="float:right">Generate Report</button>
+                            <button type="submit" class="btn btn-primary" style="float:right">Generate Report</button>
                         </form>
+                        <form class="form-inline" action="/generateReportsByShopId" method="POST">
+                            <div class="form-group">
+                                <label>Display Sales From:</label>
+                                <select class="form-control">
+                                    <option>Today</option>
+                                    <option>The past 7 days</option>
+                                    <option>The past 30 days</option>
+                                    <option>The past year</option>
+                                </select>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary" style="float:right">Generate Report PDF</button>
+                        </form>
+                        <button type="button" onclick="downloadCSV({filename: 'sales.csv'});" class="btn btn-primary" style="float:right">Generate Report CSV</button>
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body">
