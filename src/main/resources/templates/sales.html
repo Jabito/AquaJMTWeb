@@ -46,10 +46,9 @@
                                     <option>The past year</option>
                                 </select>
                             </div>
-
                             <button type="submit" class="btn btn-primary" style="float:right">Generate Report PDF</button>
+                            <button type="button" onclick="downloadCSV({filename: 'sales.csv'});" class="btn btn-primary" style="float:right">Generate Report CSV</button>
                         </form>
-                        <button type="button" onclick="downloadCSV({filename: 'sales.csv'});" class="btn btn-primary" style="float:right">Generate Report CSV</button>
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body">
